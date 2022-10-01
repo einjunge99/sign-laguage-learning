@@ -42,7 +42,7 @@ class _LevelPageState extends ConsumerState<LevelPage> {
   List<Exercise> exercises = [
     Exercise(
       "001",
-      "A",
+      "Lunes",
       "E080c6FJW9U",
     ),
     Exercise(

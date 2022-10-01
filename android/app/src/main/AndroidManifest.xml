@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sign_language_learning">
+   <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="sign_language_learning"
         android:name="${applicationName}"
