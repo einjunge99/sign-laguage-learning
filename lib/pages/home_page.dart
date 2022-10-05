@@ -21,7 +21,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   List<dynamic> badges = [
     Badge(
       uid: "001",
-      title: "Abecedario",
+      title: "Días de la semana",
       badgeColor: Color(0xFF1DB1F4),
       imageUrl:
           "https://www.sense.org.uk/wp-content/themes/sense-uk/assets/img/sign/o.png",

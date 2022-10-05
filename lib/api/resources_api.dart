@@ -14,7 +14,8 @@ class ResourcesApi {
   //TODO: Add corresponding response type
   Future<HttpResponse> updateAvatar(
       Uint8List bytes, String expectedLabel) async {
-    return _http.request<String>(
+    //TODO: Add corresponding response type
+    return _http.request(
       '/api/predict',
       method: 'POST',
       formData: {

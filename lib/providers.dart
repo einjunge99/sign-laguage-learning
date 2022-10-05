@@ -117,3 +117,11 @@ final newPageProvider = StateProvider.autoDispose<int>((ref) => 0);
 final userDataProvider = FutureProvider<dynamic>((ref) async {
   return ref.read(authenticationProvider).getUserData();
 });
+
+final resultProvider = StateProvider.autoDispose<int?>(
+  (ref) => null,
+);
+
+final isDisabledProvider = StateProvider.autoDispose<bool>(
+  (ref) => true,
+);

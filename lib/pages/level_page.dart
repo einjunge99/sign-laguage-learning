@@ -47,12 +47,27 @@ class _LevelPageState extends ConsumerState<LevelPage> {
     ),
     Exercise(
       "001",
-      "B",
+      "Martes",
       "GfNcVJVWE9k",
     ),
     Exercise(
       "001",
-      "C",
+      "Miércoles",
+      "wWagjkpNuo8",
+    ),
+    Exercise(
+      "001",
+      "Viernes",
+      "wWagjkpNuo8",
+    ),
+    Exercise(
+      "001",
+      "Sábado",
+      "wWagjkpNuo8",
+    ),
+    Exercise(
+      "001",
+      "Domingo",
       "wWagjkpNuo8",
     ),
     Exercise(
