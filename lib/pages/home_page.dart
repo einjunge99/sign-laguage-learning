@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sign_language_learning/main.dart';
 import 'package:sign_language_learning/models/badge.dart';
 import 'package:sign_language_learning/models/user.dart';
 import 'package:sign_language_learning/providers.dart';
@@ -184,9 +185,22 @@ class LearningTree extends ConsumerWidget {
           ),
         ),
         Expanded(
-          child: Text(
-            "Más lecciones disponibles próximanente...",
-            textAlign: TextAlign.center,
+          child: Column(
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(
+                    context,
+                    QuizPage.routeName,
+                  );
+                },
+                child: Text("Ejercicio de prueba..."),
+              ),
+              Text(
+                "Más lecciones disponibles próximanente...",
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         )
       ],

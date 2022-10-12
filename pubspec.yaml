@@ -26,8 +26,8 @@ dependencies:
 
   get_it: 7.2.0
 
-  flutter_riverpod: 1.0.3
-  riverpod_messages: 1.0.0
+  flutter_riverpod: 2.0.2
+  riverpod_messages: 1.0.2
 
   youtube_player_flutter: 8.0.0
   
@@ -37,6 +37,10 @@ dependencies:
   tflite: 1.1.2
   dio: 4.0.6
   logger: 1.1.0
+
+  flutter_hooks: 0.18.5+1
+  hooks_riverpod: 2.0.2
+  equatable: 2.0.5
 
 dev_dependencies:
   flutter_test:
