@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sign_language_learning/main.dart';
 import 'package:sign_language_learning/models/badge.dart';
 import 'package:sign_language_learning/models/user.dart';
+import 'package:sign_language_learning/pages/quiz_page.dart';
 import 'package:sign_language_learning/providers.dart';
 import 'package:sign_language_learning/widgets/badge_container.dart';
-import 'package:sign_language_learning/widgets/circular_badge.dart';
 import 'package:sign_language_learning/widgets/common/input_text.dart';
 import 'package:sign_language_learning/widgets/custom_animated_bottom_bar.dart';
-import 'package:tflite/tflite.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({Key? key}) : super(key: key);
