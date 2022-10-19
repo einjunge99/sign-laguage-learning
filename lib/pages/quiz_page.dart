@@ -40,9 +40,12 @@ class QuizPage extends HookConsumerWidget {
             data: (questions) {
               final quizState = ref.watch(quizControllerProvider);
 
-              if (!pageController.hasClients) return const SizedBox.shrink();
+              if (quizState.status == QuizStatus.complete) {
+                return const SizedBox.shrink();
+              }
 
-              if ((pageController.page?.toInt() ?? 0) + 1 < questions.length) {
+              if (!pageController.hasClients ||
+                  (pageController.page?.toInt() ?? 0) + 1 < questions.length) {
                 return CustomButton(
                   title: "SIGUIENTE",
                   onTap: !quizState.answered
@@ -63,7 +66,7 @@ class QuizPage extends HookConsumerWidget {
               }
 
               return CustomButton(
-                title: "Ver resultados",
+                title: "VER RESULTADOS",
                 onTap: () {
                   ref.read(quizControllerProvider.notifier).nextQuestion(
                         questions,

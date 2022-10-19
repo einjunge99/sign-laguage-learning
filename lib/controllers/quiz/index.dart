@@ -12,13 +12,13 @@ class QuizController extends StateNotifier<QuizState> {
 
   void submitAnswer(Question currentQuestion, String answer) {
     if (state.answered) return;
-    if (answer == currentQuestion.correctAnswer) {
-      state =
-          state.copyWith(selectedAnswer: answer, status: QuizStatus.correct);
-    } else {
-      state =
-          state.copyWith(selectedAnswer: answer, status: QuizStatus.incorrect);
-    }
+    var isCorrect = answer == currentQuestion.correctAnswer;
+    state = state.copyWith(
+      selectedAnswer: answer,
+      status: isCorrect ? QuizStatus.correct : QuizStatus.incorrect,
+      correctAnswers:
+          isCorrect ? state.correctAnswers + 1 : state.correctAnswers,
+    );
   }
 
   void setRecognitionResult(dynamic data) {
@@ -28,6 +28,7 @@ class QuizController extends StateNotifier<QuizState> {
     state = state.copyWith(
       recognitionResult: confidence,
       status: isCorrect ? QuizStatus.correct : QuizStatus.incorrect,
+      correctAnswers: state.correctAnswers + (isCorrect ? 1 : 0),
     );
   }
 
@@ -38,7 +39,9 @@ class QuizController extends StateNotifier<QuizState> {
       status: currentIndex + 1 < questions.length
           ? QuizStatus.initial
           : QuizStatus.complete,
-      questionCounter: state.questionCounter + 1,
+      questionCounter: currentIndex + 1 < questions.length
+          ? state.questionCounter + 1
+          : state.questionCounter,
     );
   }
 

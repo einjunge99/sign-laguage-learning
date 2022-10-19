@@ -94,7 +94,9 @@ class Quiz extends BaseQuiz {
     final results = List<Map<String, dynamic>>.from(valueMap['results']);
 
     try {
-      return results.map((e) => Question.fromMap(e)).toList()..shuffle();
+      var questions = results.map((e) => Question.fromMap(e)).toList()
+        ..shuffle();
+      return questions.take(5).toList();
     } catch (e) {
       print(e);
       return [];
