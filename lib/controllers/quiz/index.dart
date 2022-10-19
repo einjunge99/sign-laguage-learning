@@ -21,12 +21,25 @@ class QuizController extends StateNotifier<QuizState> {
     }
   }
 
+  void setRecognitionResult(dynamic data) {
+    var confidence = (data["confidence"] as double).round();
+    var isCorrect = data["correct"] as bool;
+
+    state = state.copyWith(
+      recognitionResult: confidence,
+      status: isCorrect ? QuizStatus.correct : QuizStatus.incorrect,
+    );
+  }
+
   void nextQuestion(List<Question> questions, int currentIndex) {
     state = state.copyWith(
-        selectedAnswer: '',
-        status: currentIndex + 1 < questions.length
-            ? QuizStatus.initial
-            : QuizStatus.complete);
+      selectedAnswer: '',
+      recognitionResult: null,
+      status: currentIndex + 1 < questions.length
+          ? QuizStatus.initial
+          : QuizStatus.complete,
+      questionCounter: state.questionCounter + 1,
+    );
   }
 
   void reset() {

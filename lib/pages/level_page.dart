@@ -163,18 +163,18 @@ class _LevelPageState extends ConsumerState<LevelPage> {
                       totalPages: items.length,
                     ),
                   ),
-                  Expanded(
-                    child: PageView.builder(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: pageController,
-                      // onPageChanged: _questionController.updateTheQnNum,
-                      itemCount: items.length,
-                      itemBuilder: (context, index) => ExerciseCard(
-                        title: items[index].title,
-                        videoUrl: items[index].videoUrl,
-                      ),
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: PageView.builder(
+                  //     physics: const NeverScrollableScrollPhysics(),
+                  //     controller: pageController,
+                  //     // onPageChanged: _questionController.updateTheQnNum,
+                  //     itemCount: items.length,
+                  //     itemBuilder: (context, index) => ExerciseCard(
+                  //       title: items[index].title,
+                  //       videoUrl: items[index].videoUrl,
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             )

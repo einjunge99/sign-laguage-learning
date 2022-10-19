@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sign_language_learning/api/resources_api.dart';
+import 'package:sign_language_learning/controllers/quiz/index.dart';
+import 'package:sign_language_learning/controllers/quiz/state.dart';
+import 'package:sign_language_learning/models/question.dart';
 import 'package:sign_language_learning/providers.dart';
 
-class ExerciseCard extends ConsumerWidget {
-  ExerciseCard({Key? key, required this.title, required this.videoUrl})
-      : super(key: key);
+//TODO: Increase counter when user skips a question
+class ExerciseCard extends HookConsumerWidget {
+  ExerciseCard({
+    Key? key,
+    required this.title,
+    required this.videoID,
+    required this.pageController,
+    required this.questions,
+  }) : super(key: key);
+
+  final PageController pageController;
   final String title;
-  final String videoUrl;
+  final String videoID;
+  final List<Question> questions;
   //TODO: Add exercise key
   final _accountApi = GetIt.instance<ResourcesApi>();
 
@@ -25,11 +37,13 @@ class ExerciseCard extends ConsumerWidget {
             children: [
               Text(title, style: Theme.of(context).textTheme.headline2),
               Visibility(
-                visible: ref.watch(resultProvider) != null,
+                visible:
+                    ref.watch(quizControllerProvider).recognitionResult != null,
                 child: Text(
-                  "${ref.watch(resultProvider)}%",
+                  "${ref.watch(quizControllerProvider).recognitionResult}%",
                   style: Theme.of(context).textTheme.headline5?.copyWith(
-                        color: ref.watch(isDisabledProvider)
+                        color: ref.watch(quizControllerProvider).status ==
+                                QuizStatus.incorrect
                             ? Colors.red
                             : Colors.green,
                       ),
@@ -40,14 +54,20 @@ class ExerciseCard extends ConsumerWidget {
           Column(
             children: [
               TextButton(
-                onPressed: ref.watch(isDisabledProvider) == false
+                onPressed: ref
+                            .watch(quizControllerProvider)
+                            .recognitionResult ==
+                        QuizStatus.correct
                     ? null
                     : () {
-                        ref.read(resultProvider.notifier).state = null;
-                        ref.read(isDisabledProvider.notifier).state = true;
-                        ref
-                            .read(newPageProvider.notifier)
-                            .update((state) => state + 1);
+                        ref.read(quizControllerProvider.notifier).nextQuestion(
+                              questions,
+                              pageController.page?.toInt() ?? 0,
+                            );
+                        pageController.nextPage(
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn,
+                        );
                       },
                 child: Text("No puedo activar mi cámara ahora"),
               ),
@@ -55,7 +75,8 @@ class ExerciseCard extends ConsumerWidget {
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size(double.infinity, 50),
                 ),
-                onPressed: ref.watch(isDisabledProvider) == false
+                onPressed: ref.watch(quizControllerProvider).status ==
+                        QuizStatus.correct
                     ? null
                     : () async {
                         final image = await ImagePicker()
@@ -76,39 +97,23 @@ class ExerciseCard extends ConsumerWidget {
 
                         final bytes = await image.readAsBytes();
 
-                        //TODO: Replace with exercise key
+                        //TODO: Replace title with exercise key
                         final response =
                             await _accountApi.updateAvatar(bytes, title);
                         if (response.data != null) {
                           if (response.data["error"] == null) {
-                            ref.read(resultProvider.notifier).state =
-                                (response.data["confidence"] as double).round();
-                            ref.read(isDisabledProvider.notifier).state =
-                                !(response.data["correct"] as bool);
+                            ref
+                                .read(quizControllerProvider.notifier)
+                                .setRecognitionResult(response.data);
                           }
                         }
 
                         Navigator.of(context).pop();
                       },
-                child: Text(ref.watch(isDisabledProvider) == true &&
-                        ref.watch(resultProvider) != null
-                    ? "Intentar de nuevo"
-                    : "Activar cámara"),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                ),
-                onPressed: ref.watch(isDisabledProvider) == true
-                    ? null
-                    : () {
-                        ref.read(resultProvider.notifier).state = null;
-                        ref.read(isDisabledProvider.notifier).state = true;
-                        ref
-                            .read(newPageProvider.notifier)
-                            .update((state) => state + 1);
-                      },
-                child: Text("CONTINUAR"),
+                child: Text(ref.watch(quizControllerProvider).status ==
+                        QuizStatus.incorrect
+                    ? "INTENTAR DE NUEVO"
+                    : "ACTIVAR CÁMARA"),
               ),
             ]
                 .map((e) => Padding(

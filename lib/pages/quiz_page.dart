@@ -20,43 +20,60 @@ class QuizPage extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final quizQuestions = ref.watch(quizQuestionsProvider);
     final pageController = usePageController();
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      color: Colors.white,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: quizQuestions.when(
-          data: (questions) => _buildBody(ref, pageController, questions),
-          error: (error, _) => const Center(
-            child: Text("There was an error..."),
+    return SafeArea(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        color: Colors.white,
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: quizQuestions.when(
+            data: (questions) => _buildBody(ref, pageController, questions),
+            error: (error, _) => const Center(
+              child: Text("There was an error..."),
+            ),
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
+          bottomSheet: quizQuestions.maybeWhen(
+            data: (questions) {
+              final quizState = ref.watch(quizControllerProvider);
+
+              if (!pageController.hasClients) return const SizedBox.shrink();
+
+              if ((pageController.page?.toInt() ?? 0) + 1 < questions.length) {
+                return CustomButton(
+                  title: "SIGUIENTE",
+                  onTap: !quizState.answered
+                      ? null
+                      : () {
+                          ref
+                              .read(quizControllerProvider.notifier)
+                              .nextQuestion(
+                                questions,
+                                pageController.page?.toInt() ?? 0,
+                              );
+                          pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                          );
+                        },
+                );
+              }
+
+              return CustomButton(
+                title: "Ver resultados",
+                onTap: () {
+                  ref.read(quizControllerProvider.notifier).nextQuestion(
+                        questions,
+                        pageController.page?.toInt() ?? 0,
+                      );
+                },
+              );
+            },
+            orElse: () => const SizedBox.shrink(),
           ),
-        ),
-        bottomSheet: quizQuestions.maybeWhen(
-          data: (questions) {
-            final quizState = ref.watch(quizControllerProvider);
-            if (!quizState.answered) return const SizedBox.shrink();
-            return CustomButton(
-              title: pageController.page!.toInt() + 1 < questions.length
-                  ? "Siguiente"
-                  : "Ver resultados",
-              onTap: () {
-                ref
-                    .read(quizControllerProvider.notifier)
-                    .nextQuestion(questions, pageController.page!.toInt());
-                if (pageController.page!.toInt() + 1 < questions.length) {
-                  pageController.nextPage(
-                    duration: const Duration(milliseconds: 300),
-                    curve: Curves.easeIn,
-                  );
-                }
-              },
-            );
-          },
-          orElse: () => const SizedBox.shrink(),
         ),
       ),
     );

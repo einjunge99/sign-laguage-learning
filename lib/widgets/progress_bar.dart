@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sign_language_learning/providers.dart';
+import 'package:sign_language_learning/controllers/quiz/index.dart';
 
 const kDefaultPadding = 20.0;
 const kPrimaryGradient = LinearGradient(
@@ -21,23 +21,19 @@ class ProgressBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final counter = ref.watch(newPageProvider);
+    final state = ref.watch(quizControllerProvider);
     return Container(
       width: double.infinity,
-      height: 35,
+      height: 20,
       decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFF3F4768), width: 3),
+        border: Border.all(color: const Color(0xFF3F4768), width: 3),
         borderRadius: BorderRadius.circular(50),
       ),
       child: Stack(
         children: [
-          // LayoutBuilder provide us the available space for the conatiner
-          // constraints.maxWidth needed for our animation
           LayoutBuilder(
             builder: (context, constraints) => Container(
-              // from 0 to 1 it takes 60s
-              // width: constraints.maxWidth * controller.animation.value,
-              width: constraints.maxWidth * counter / totalPages,
+              width: constraints.maxWidth * state.questionCounter / totalPages,
               decoration: BoxDecoration(
                 gradient: kPrimaryGradient,
                 borderRadius: BorderRadius.circular(50),
