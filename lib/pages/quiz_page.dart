@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sign_language_learning/controllers/index.dart';
 import 'package:sign_language_learning/controllers/quiz/index.dart';
 import 'package:sign_language_learning/controllers/quiz/state.dart';
 import 'package:sign_language_learning/models/question.dart';
@@ -9,8 +10,10 @@ import 'package:sign_language_learning/repositories/quiz/index.dart';
 import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/quiz_questions.dart';
 
-final quizQuestionsProvider = FutureProvider.autoDispose<List<Question>>(
-    (ref) => ref.watch(quizProvider).getQuestions(level: ''));
+final quizQuestionsProvider = FutureProvider.autoDispose<List<Question>>((ref) {
+  final _selectedLecture = ref.read(lectureController.notifier).state;
+  return ref.watch(quizProvider).getExercises(lectureId: _selectedLecture);
+});
 
 class QuizPage extends HookConsumerWidget {
   const QuizPage({Key? key}) : super(key: key);

@@ -4,6 +4,7 @@ import 'package:sign_language_learning/models/badge.dart';
 import 'package:sign_language_learning/models/user.dart';
 import 'package:sign_language_learning/pages/quiz_page.dart';
 import 'package:sign_language_learning/providers.dart';
+import 'package:sign_language_learning/repositories/tree/index.dart';
 import 'package:sign_language_learning/widgets/badge_container.dart';
 import 'package:sign_language_learning/widgets/common/input_text.dart';
 import 'package:sign_language_learning/widgets/custom_animated_bottom_bar.dart';
@@ -16,37 +17,15 @@ class HomePage extends ConsumerStatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
-  List<dynamic> badges = [
-    Badge(
-      uid: "001",
-      title: "Días de la semana",
-      badgeColor: Color(0xFF1DB1F4),
-      imageUrl:
-          "https://www.sense.org.uk/wp-content/themes/sense-uk/assets/img/sign/o.png",
-    ),
-    [
-      Badge(
-        uid: "002",
-        title: "Meses del año",
-        badgeColor: Color(0xFF1DB1F4),
-        imageUrl:
-            "https://www.sense.org.uk/wp-content/themes/sense-uk/assets/img/sign/o.png",
-      ),
-      Badge(
-        uid: "003",
-        title: "Frases de cortesía",
-        badgeColor: Color(0xFF1DB1F4),
-        imageUrl:
-            "https://www.sense.org.uk/wp-content/themes/sense-uk/assets/img/sign/o.png",
-      ),
-    ],
-  ];
+final treeBadgesProvider = FutureProvider.autoDispose<List<Badge>>((ref) {
+  return ref.watch(treeProvider).getBadges();
+});
 
+class _HomePageState extends ConsumerState<HomePage> {
   int _currentIndex = 0;
   final _inactiveColor = Colors.grey;
 
-  Widget getBody() {
+  Widget getBody(badges) {
     List<Widget> pages = [
       LearningTree(badges: badges),
       const Profile(),
@@ -87,8 +66,16 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final treeBadges = ref.watch(treeBadgesProvider);
+
     return Scaffold(
-      body: getBody(),
+      body: treeBadges.when(
+        data: (badges) => getBody(badges),
+        error: (error, _) => Center(child: Text(error.toString())),
+        loading: () => const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
       bottomNavigationBar: _buildBottomBar(),
     );
   }

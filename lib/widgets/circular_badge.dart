@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sign_language_learning/controllers/index.dart';
+import 'package:sign_language_learning/controllers/quiz/index.dart';
 import 'package:sign_language_learning/pages/level_page.dart';
+import 'package:sign_language_learning/pages/quiz_page.dart';
 
-class CircularBadge extends StatelessWidget {
+class CircularBadge extends ConsumerWidget {
   const CircularBadge(
       {Key? key,
       required this.uid,
-      this.title = "<Your text here>",
-      this.badgeColor = const Color(0xFF1DB1F4),
-      this.imageUrl =
-          "https://www.sense.org.uk/wp-content/themes/sense-uk/assets/img/sign/o.png"})
+      required this.title,
+      required this.badgeColor,
+      required this.imageUrl})
       : super(key: key);
 
   final String uid;
@@ -17,15 +20,14 @@ class CircularBadge extends StatelessWidget {
   final String imageUrl;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     const size = 125.0;
     return GestureDetector(
       onTap: () {
-        //TODO: push params, such as exercise id
+        ref.read(lectureController.notifier).state = uid;
         Navigator.pushNamed(
           context,
-          LevelPage.routeName,
-          arguments: LevelPageArguments(uid),
+          QuizPage.routeName,
         );
       },
       child: Column(

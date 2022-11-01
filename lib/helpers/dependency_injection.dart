@@ -10,7 +10,7 @@ abstract class DependencyInjection {
   static void initialize() {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final Dio dio = Dio(BaseOptions(
-      baseUrl: 'http://da53-190-104-121-180.ngrok.io',
+      baseUrl: 'http://7720-190-104-121-180.ngrok.io',
     ));
     Http http = Http(dio: dio, logsEnabled: true);
 

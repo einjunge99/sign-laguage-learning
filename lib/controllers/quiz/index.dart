@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sign_language_learning/controllers/quiz/state.dart';
 import 'package:sign_language_learning/models/question.dart';
 
-//TODO: Agregar tipado a Notifier
 final quizControllerProvider =
     StateNotifierProvider.autoDispose<QuizController, QuizState>(
         (ref) => QuizController());

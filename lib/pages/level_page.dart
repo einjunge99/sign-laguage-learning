@@ -7,14 +7,6 @@ import 'package:sign_language_learning/widgets/common/dialogs.dart';
 import 'package:sign_language_learning/widgets/exercise_card.dart';
 import 'package:sign_language_learning/widgets/progress_bar.dart';
 
-//TODO: Al momento de iniciar, pasar parametro numero de ejercicios
-//A cada siguiente, se pusheara en la ruta el ID del ejercicio y el actual.
-//Al momento de completar todos es que se muestra la pantalla de completado
-//Este componente se encarga de hacer query de todos los ejercicios
-//https://www.youtube.com/watch?v=Nhy0VWAMsFU
-//TODO: Ver como integrar page controller con riverpod
-//https://stackoverflow.com/questions/70834608/flutter-riverpod-using-ref-watch-outside-of-build-functionå
-//TODO: de momento, a menos que sea autenticación, tener todo mockeado.
 const kDefaultPadding = 1.0;
 
 class Exercise {
