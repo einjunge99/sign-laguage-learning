@@ -41,9 +41,7 @@ class _LoginFormState extends State<LoginForm> {
             "Inicia sesión",
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           InputText(
             label: 'Correo electrónico',
             keyboardType: TextInputType.emailAddress,
@@ -51,9 +49,7 @@ class _LoginFormState extends State<LoginForm> {
               _email = text;
             },
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           InputText(
             label: 'Contraseña',
             obscureText: true,
@@ -61,13 +57,9 @@ class _LoginFormState extends State<LoginForm> {
               _password = text;
             },
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           CustomButton(title: 'INICIAR SESIÓN', onTap: _submit),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Text(
             "Olvidé mi contraseña",
             style: Theme.of(context).textTheme.bodyText1,

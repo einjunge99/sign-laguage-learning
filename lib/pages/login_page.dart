@@ -31,7 +31,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     LoginForm(notifier),
-                    const Divider(),
+                    const Divider(height: 50),
                     CustomButton(
                       title: 'INICIAR SESIÓN CON GOOGLE',
                       variant: ButtonVariant.secondary,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sign_language_learning/pages/home_page.dart';
 import 'package:sign_language_learning/providers.dart';
+import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/forms/register_form.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -21,22 +21,19 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       body: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             RegisterForm(notifier),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                onPrimary: Colors.black,
-                minimumSize: Size(double.infinity, 50),
-              ),
-              icon: FaIcon(
+            const Divider(height: 50),
+            CustomButton(
+              title: 'INICIAR SESIÓN CON GOOGLE',
+              variant: ButtonVariant.secondary,
+              icon: const FaIcon(
                 FontAwesomeIcons.google,
                 color: Colors.red,
               ),
-              label: Text("REGISTRARSE CON GOOGLE"),
-              onPressed: () async {
+              onTap: () async {
                 String? response = await notifier.googleSignIn();
                 if (response != null) {
                   Navigator.pushNamedAndRemoveUntil(
