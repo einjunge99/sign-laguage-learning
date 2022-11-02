@@ -14,15 +14,15 @@ class ResourcesApi {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //TODO: Add corresponding response type
-  Future<HttpResponse> updateAvatar(
-      Uint8List bytes, String expectedLabel) async {
+  Future<HttpResponse> predict(
+      Uint8List bytes, String label, String lectureId) async {
     //TODO: Add corresponding response type
     return _http.request(
-      '/api/predict',
+      '/api/predict/$lectureId',
       method: 'POST',
       formData: {
         "file": MultipartFile.fromBytes(bytes, filename: "avatar.jpg"),
-        "expected_label": expectedLabel
+        "expected_label": label
       },
     );
   }
@@ -45,6 +45,13 @@ class ResourcesApi {
     return _http.request(
       '/api/user/$uid/$lectureId',
       method: 'PATCH',
+    );
+  }
+
+  Future<HttpResponse> getUserInfo() async {
+    final uid = _auth.currentUser?.uid;
+    return _http.request(
+      '/api/user/$uid/',
     );
   }
 }

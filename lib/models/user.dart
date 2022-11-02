@@ -11,7 +11,7 @@ class LocalUser {
     required this.uid,
   });
 
-  static LocalUser fromMap(Map<String, dynamic> map) {
+  factory LocalUser.fromMap(Map<String, dynamic> map) {
     return LocalUser(
       authProvider: map['authProvider'] as String,
       displayName: map['displayName'] as String?,

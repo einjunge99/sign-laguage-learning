@@ -3,39 +3,118 @@ import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sign_language_learning/api/resources_api.dart';
+import 'package:sign_language_learning/controllers/index.dart';
 import 'package:sign_language_learning/controllers/quiz/index.dart';
 import 'package:sign_language_learning/controllers/quiz/state.dart';
 import 'package:sign_language_learning/models/question.dart';
-import 'package:sign_language_learning/providers.dart';
+import 'package:sign_language_learning/widgets/common/button.dart';
+import 'package:sign_language_learning/widgets/video_card.dart';
 
 //TODO: Increase counter when user skips a question
 class ExerciseCard extends HookConsumerWidget {
   ExerciseCard({
     Key? key,
     required this.title,
-    required this.videoID,
+    required this.label,
     required this.pageController,
     required this.questions,
   }) : super(key: key);
 
   final PageController pageController;
   final String title;
-  final String videoID;
+  final String label;
   final List<Question> questions;
   //TODO: Add exercise key
   final _accountApi = GetIt.instance<ResourcesApi>();
 
+  void _onButtonPressed(context) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) {
+        return FractionallySizedBox(
+          heightFactor: 0.9,
+          child: Container(
+            color: const Color(0xFF737373),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+              ),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    //TODO: Add pulsating effect
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 100),
+                      child: Container(
+                        color: Colors.black,
+                        height: 6,
+                      ),
+                    ),
+                    const VideoCard(videoUrl: 'Zh577vcSras'),
+                  ]),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.only(bottom: buttonHeight),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(title, style: Theme.of(context).textTheme.headline2),
+              Text(
+                'Practica tus habilidades',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              Text(
+                'Usa la cámara para hacer la seña indicada',
+                style: Theme.of(context).textTheme.caption,
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.headline2),
+                  Material(
+                    type: MaterialType.transparency,
+                    child: Ink(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.blue, width: 4),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: InkWell(
+                        onTap: () => _onButtonPressed(context),
+                        child: const Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Icon(
+                            Icons.lightbulb_outline,
+                            size: 35.0,
+                            color: Colors.blue,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
               Visibility(
                 visible:
                     ref.watch(quizControllerProvider).recognitionResult != null,
@@ -54,9 +133,7 @@ class ExerciseCard extends HookConsumerWidget {
           Column(
             children: [
               TextButton(
-                onPressed: ref
-                            .watch(quizControllerProvider)
-                            .recognitionResult ==
+                onPressed: ref.watch(quizControllerProvider).status ==
                         QuizStatus.correct
                     ? null
                     : () {
@@ -97,9 +174,12 @@ class ExerciseCard extends HookConsumerWidget {
 
                         final bytes = await image.readAsBytes();
 
+                        final _selectedLecture =
+                            ref.read(lectureController.notifier).state;
+
                         //TODO: Replace title with exercise key
-                        final response =
-                            await _accountApi.updateAvatar(bytes, title);
+                        final response = await _accountApi.predict(
+                            bytes, label, _selectedLecture);
                         if (response.data != null) {
                           if (response.data["error"] == null) {
                             ref

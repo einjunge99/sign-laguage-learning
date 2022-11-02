@@ -4,9 +4,10 @@ import 'package:sign_language_learning/models/badge.dart';
 import 'package:sign_language_learning/models/user.dart';
 import 'package:sign_language_learning/pages/quiz_page.dart';
 import 'package:sign_language_learning/providers.dart';
+import 'package:sign_language_learning/repositories/profile/index.dart';
 import 'package:sign_language_learning/repositories/tree/index.dart';
 import 'package:sign_language_learning/widgets/badge_container.dart';
-import 'package:sign_language_learning/widgets/common/input_text.dart';
+import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/custom_animated_bottom_bar.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -47,16 +48,16 @@ class _HomePageState extends ConsumerState<HomePage> {
       onItemSelected: (index) => setState(() => _currentIndex = index),
       items: <BottomNavyBarItem>[
         BottomNavyBarItem(
-          icon: Icon(Icons.apps),
-          title: Text('INICIO'),
+          icon: const Icon(Icons.apps),
+          title: const Text('INICIO'),
           activeColor: Colors.green,
           inactiveColor: _inactiveColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
-          icon: Icon(Icons.people),
-          title: Text('PERFIL'),
-          activeColor: Color(0xFF1DB1F4),
+          icon: const Icon(Icons.person),
+          title: const Text('PERFIL'),
+          activeColor: const Color(0xFF1DB1F4),
           inactiveColor: _inactiveColor,
           textAlign: TextAlign.center,
         ),
@@ -68,18 +69,24 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final treeBadges = ref.watch(treeBadgesProvider);
 
-    return Scaffold(
-      body: treeBadges.when(
-        data: (badges) => getBody(badges),
-        error: (error, _) => Center(child: Text(error.toString())),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
+    return SafeArea(
+      child: Scaffold(
+        body: treeBadges.when(
+          data: (badges) => getBody(badges),
+          error: (error, _) => Center(child: Text(error.toString())),
+          loading: () => const Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
+        bottomNavigationBar: _buildBottomBar(),
       ),
-      bottomNavigationBar: _buildBottomBar(),
     );
   }
 }
+
+final userInfoProvider = FutureProvider.autoDispose<LocalUser>((ref) {
+  return ref.watch(profileProvider).getUserInfo();
+});
 
 class Profile extends ConsumerStatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -92,50 +99,52 @@ class _ProfileState extends ConsumerState<Profile> {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(authenticationClientStateProvider.notifier);
-    final _data = ref.watch(userDataProvider);
+    final userInfo = ref.watch(userInfoProvider);
 
     return Container(
-      padding: EdgeInsets.all(20),
-      child: _data.when(
-        data: (snapshot) {
-          final map = snapshot.data();
-          LocalUser user = LocalUser.fromMap(map);
+      padding: const EdgeInsets.all(20),
+      child: userInfo.when(
+        data: (user) {
           return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "Perfil",
-                style: TextStyle(fontSize: 30),
-              ),
-              InputText(
-                initialValue: user.email,
-                label: "Email",
-              ),
-              InputText(
-                initialValue: user.displayName,
-                label: "Nombre",
-              ),
-              Center(
-                child: ElevatedButton(
-                  child: Text('Cerrar sesión'),
-                  onPressed: () async {
-                    String? response = await notifier.logout();
-                    if (response != null) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        response,
-                        (_) => false,
-                      );
-                    }
-                  },
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Perfil",
+                  style: Theme.of(context).textTheme.headlineLarge,
                 ),
+              ),
+              Column(
+                children: [
+                  Text(
+                    user.displayName ?? "",
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Text(
+                    user.email,
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                ],
+              ),
+              CustomButton(
+                title: 'CERRAR SESIÓN',
+                onTap: () async {
+                  String? response = await notifier.logout();
+                  if (response != null) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      response,
+                      (_) => false,
+                    );
+                  }
+                },
               ),
             ],
           );
         },
         error: (err, s) => Text(err.toString()),
-        loading: () => Center(
+        loading: () => const Center(
           child: CircularProgressIndicator(),
         ),
       ),
@@ -153,42 +162,38 @@ class LearningTree extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(
-          child: ListView.builder(
-            itemCount: badges.length,
-            itemBuilder: (context, index) {
-              final item = badges[index];
+    return Container(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: Text(
+              "Árbol de aprendizaje",
+              style: Theme.of(context).textTheme.headlineLarge,
+            ),
+          ),
+          Expanded(
+            flex: 10,
+            child: ListView.builder(
+              itemCount: badges.length,
+              itemBuilder: (context, index) {
+                final item = badges[index];
 
-              return BadgeContainer(
-                content: item,
-              );
-            },
+                return BadgeContainer(
+                  content: item,
+                );
+              },
+            ),
           ),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    QuizPage.routeName,
-                  );
-                },
-                child: Text("Ejercicio de prueba..."),
-              ),
-              Text(
-                "Más lecciones disponibles próximanente...",
-                textAlign: TextAlign.center,
-              ),
-            ],
+          const Text(
+            "Más lecciones disponibles próximanente...",
+            textAlign: TextAlign.center,
           ),
-        )
-      ],
+        ],
+      ),
     );
   }
 }

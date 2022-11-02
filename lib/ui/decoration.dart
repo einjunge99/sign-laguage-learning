@@ -7,3 +7,5 @@ const List<BoxShadow> boxShadow = [
     blurRadius: 4.0,
   ),
 ];
+
+const primary = Color(0xFF1DB1F4);

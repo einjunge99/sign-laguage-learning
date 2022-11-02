@@ -15,6 +15,7 @@ class BadgeContainer extends StatelessWidget {
         title: content.title,
         badgeColor: content.badgeColor,
         imageUrl: content.imageUrl,
+        isCompleted: content.isCompleted,
       );
     }
     return Row(
@@ -26,6 +27,7 @@ class BadgeContainer extends StatelessWidget {
               title: badge.title,
               badgeColor: badge.badgeColor,
               imageUrl: badge.imageUrl,
+              isCompleted: badge.isCompleted,
             ),
           )
           .toList(),
