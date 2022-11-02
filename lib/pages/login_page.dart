@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:riverpod_messages/riverpod_messages.dart';
 import 'package:sign_language_learning/providers.dart';
 import 'package:sign_language_learning/store/reducers/snackbar.dart';
+import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/forms/login_form.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -26,22 +27,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   exampleStateNotifierProvider.select((value) => value.loading))
               ? const CircularProgressIndicator()
               : Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     LoginForm(notifier),
-                    ElevatedButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.white,
-                        onPrimary: Colors.black,
-                        minimumSize: Size(double.infinity, 50),
-                      ),
-                      icon: FaIcon(
+                    const Divider(),
+                    CustomButton(
+                      title: 'INICIAR SESIÓN CON GOOGLE',
+                      variant: ButtonVariant.secondary,
+                      icon: const FaIcon(
                         FontAwesomeIcons.google,
                         color: Colors.red,
                       ),
-                      label: Text("INICIAR SESIÓN CON GOOGLE"),
-                      onPressed: () async {
+                      onTap: () async {
                         String? response = await notifier.googleSignIn();
                         if (response != null) {
                           Navigator.pushNamedAndRemoveUntil(

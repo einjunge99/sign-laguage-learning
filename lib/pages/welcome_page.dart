@@ -34,7 +34,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
               Text(
                 "Abre la puerta al mundo de la lengua de señas",
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
             ],
@@ -53,8 +53,7 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
               const SizedBox(height: 10),
               CustomButton(
-                color: primary,
-                backgroundColor: Colors.white,
+                variant: ButtonVariant.secondary,
                 title: 'YA TENGO UNA CUENTA',
                 onTap: () {
                   Navigator.pushNamed(context, LoginPage.routeName);

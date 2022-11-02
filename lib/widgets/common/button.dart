@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:sign_language_learning/ui/decoration.dart';
 
 const buttonHeight = 50.0;
@@ -77,30 +78,82 @@ class _PushableButtonState extends State<PushableButton> {
   }
 }
 
+enum ButtonVariant { primary, secondary }
+
+enum ButtonIconPosition { left, right }
+
 class CustomButton extends StatelessWidget {
   final String title;
   final VoidCallback? onTap;
-  final Color color;
-  final Color backgroundColor;
+  final ButtonVariant variant;
+  final ButtonIconPosition iconPosition;
+  final Widget? icon;
 
   const CustomButton({
     Key? key,
     required this.title,
-    this.color = Colors.white,
-    this.backgroundColor = primary,
     this.onTap,
+    this.variant = ButtonVariant.primary,
+    this.iconPosition = ButtonIconPosition.left,
+    this.icon,
   }) : super(key: key);
+
+  Color backgroundColor() {
+    switch (variant) {
+      case ButtonVariant.primary:
+        return primary;
+      case ButtonVariant.secondary:
+        return Colors.white;
+    }
+  }
+
+  Color color() {
+    switch (variant) {
+      case ButtonVariant.primary:
+        return Colors.white;
+      case ButtonVariant.secondary:
+        return primary;
+    }
+  }
+
+  Widget content() {
+    final text = Text(
+      title,
+      style: TextStyle(
+        color: color(),
+        fontWeight: FontWeight.bold,
+      ),
+    );
+
+    if (icon == null) {
+      return text;
+    }
+
+    var widgets = [
+      icon!,
+      const SizedBox(
+        width: 10,
+      ),
+      text
+    ];
+
+    if (iconPosition == ButtonIconPosition.right) {
+      widgets = widgets.reversed.toList();
+    }
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: widgets,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return PushableButton(
-      child: Text(
-        title,
-        style: TextStyle(color: color),
-      ),
+      child: content(),
       height: buttonHeight,
       elevation: 8,
-      backgroundColor: backgroundColor,
+      backgroundColor: backgroundColor(),
       onPressed: onTap,
     );
   }
