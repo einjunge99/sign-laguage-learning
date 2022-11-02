@@ -99,6 +99,9 @@ class CustomButton extends StatelessWidget {
   }) : super(key: key);
 
   Color backgroundColor() {
+    if (onTap == null) {
+      return secondary;
+    }
     switch (variant) {
       case ButtonVariant.primary:
         return primary;
@@ -108,6 +111,10 @@ class CustomButton extends StatelessWidget {
   }
 
   Color color() {
+    if (onTap == null) {
+      return const Color(0xffafafaf);
+    }
+
     switch (variant) {
       case ButtonVariant.primary:
         return Colors.white;

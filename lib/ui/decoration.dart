@@ -8,4 +8,5 @@ const List<BoxShadow> boxShadow = [
   ),
 ];
 
-const primary = Color(0xFF1DB1F4);
+const primary = Color(0xff1db1f4);
+const secondary = Color(0xffe5e5e5);

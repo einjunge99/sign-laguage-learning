@@ -11,7 +11,6 @@ import 'package:sign_language_learning/ui/decoration.dart';
 import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/video_card.dart';
 
-//TODO: Increase counter when user skips a question
 class ExerciseCard extends HookConsumerWidget {
   ExerciseCard({
     Key? key,
@@ -25,7 +24,6 @@ class ExerciseCard extends HookConsumerWidget {
   final String title;
   final String label;
   final List<Question> questions;
-  //TODO: Add exercise key
   final _accountApi = GetIt.instance<ResourcesApi>();
 
   void _onButtonPressed(context) {
@@ -84,7 +82,7 @@ class ExerciseCard extends HookConsumerWidget {
               ),
               Text(
                 'Usa la cámara para hacer la seña indicada',
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),
@@ -98,7 +96,7 @@ class ExerciseCard extends HookConsumerWidget {
                     type: MaterialType.transparency,
                     child: Ink(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.blue, width: 4),
+                        border: Border.all(color: primary, width: 4),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: InkWell(
@@ -108,7 +106,7 @@ class ExerciseCard extends HookConsumerWidget {
                           child: Icon(
                             Icons.lightbulb_outline,
                             size: 35.0,
-                            color: Colors.blue,
+                            color: primary,
                           ),
                         ),
                       ),
@@ -125,7 +123,7 @@ class ExerciseCard extends HookConsumerWidget {
                         color: ref.watch(quizControllerProvider).status ==
                                 QuizStatus.incorrect
                             ? Colors.red
-                            : Colors.green,
+                            : primary,
                       ),
                 ),
               ),
@@ -147,13 +145,18 @@ class ExerciseCard extends HookConsumerWidget {
                           curve: Curves.easeIn,
                         );
                       },
-                child: Text("No puedo activar mi cámara ahora"),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                child: const Text(
+                  "NO PUEDO USAR MI CÁMARA AHORA",
+                  //TODO: Isolate TextButton styles
+                  style: TextStyle(
+                    color: primary,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-                onPressed: ref.watch(quizControllerProvider).status ==
+              ),
+              CustomButton(
+                variant: ButtonVariant.secondary,
+                onTap: ref.watch(quizControllerProvider).status ==
                         QuizStatus.correct
                     ? null
                     : () async {
@@ -178,7 +181,6 @@ class ExerciseCard extends HookConsumerWidget {
                         final _selectedLecture =
                             ref.read(lectureController.notifier).state;
 
-                        //TODO: Replace title with exercise key
                         final response = await _accountApi.predict(
                             bytes, label, _selectedLecture);
                         if (response.data != null) {
@@ -191,10 +193,10 @@ class ExerciseCard extends HookConsumerWidget {
 
                         Navigator.of(context).pop();
                       },
-                child: Text(ref.watch(quizControllerProvider).status ==
+                title: ref.watch(quizControllerProvider).status ==
                         QuizStatus.incorrect
                     ? "INTENTAR DE NUEVO"
-                    : "ACTIVAR CÁMARA"),
+                    : "ACTIVAR CÁMARA",
               ),
             ]
                 .map((e) => Padding(
@@ -206,14 +208,5 @@ class ExerciseCard extends HookConsumerWidget {
         ],
       ),
     );
-  }
-}
-
-class CircularButton extends StatelessWidget {
-  const CircularButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

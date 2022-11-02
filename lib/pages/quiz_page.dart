@@ -50,33 +50,39 @@ class QuizPage extends HookConsumerWidget {
 
               if (!pageController.hasClients ||
                   (pageController.page?.toInt() ?? 0) + 1 < questions.length) {
-                return CustomButton(
-                  title: "SIGUIENTE",
-                  onTap: !quizState.answered
-                      ? null
-                      : () {
-                          ref
-                              .read(quizControllerProvider.notifier)
-                              .nextQuestion(
-                                questions,
-                                pageController.page?.toInt() ?? 0,
-                              );
-                          pageController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeIn,
-                          );
-                        },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: CustomButton(
+                    title: "SIGUIENTE",
+                    onTap: !quizState.answered
+                        ? null
+                        : () {
+                            ref
+                                .read(quizControllerProvider.notifier)
+                                .nextQuestion(
+                                  questions,
+                                  pageController.page?.toInt() ?? 0,
+                                );
+                            pageController.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeIn,
+                            );
+                          },
+                  ),
                 );
               }
 
-              return CustomButton(
-                title: "VER RESULTADOS",
-                onTap: () {
-                  ref.read(quizControllerProvider.notifier).nextQuestion(
-                        questions,
-                        pageController.page?.toInt() ?? 0,
-                      );
-                },
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: CustomButton(
+                  title: "VER RESULTADOS",
+                  onTap: () {
+                    ref.read(quizControllerProvider.notifier).nextQuestion(
+                          questions,
+                          pageController.page?.toInt() ?? 0,
+                        );
+                  },
+                ),
               );
             },
             orElse: () => const SizedBox.shrink(),
