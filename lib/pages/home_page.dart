@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sign_language_learning/models/badge.dart';
 import 'package:sign_language_learning/models/user.dart';
-import 'package:sign_language_learning/pages/quiz_page.dart';
 import 'package:sign_language_learning/providers.dart';
 import 'package:sign_language_learning/repositories/profile/index.dart';
 import 'package:sign_language_learning/repositories/tree/index.dart';
+import 'package:sign_language_learning/ui/decoration.dart';
 import 'package:sign_language_learning/widgets/badge_container.dart';
 import 'package:sign_language_learning/widgets/common/button.dart';
+import 'package:sign_language_learning/widgets/common/header.dart';
 import 'package:sign_language_learning/widgets/custom_animated_bottom_bar.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -57,7 +58,7 @@ class _HomePageState extends ConsumerState<HomePage> {
         BottomNavyBarItem(
           icon: const Icon(Icons.person),
           title: const Text('PERFIL'),
-          activeColor: const Color(0xFF1DB1F4),
+          activeColor: primary,
           inactiveColor: _inactiveColor,
           textAlign: TextAlign.center,
         ),
@@ -101,52 +102,55 @@ class _ProfileState extends ConsumerState<Profile> {
     final notifier = ref.read(authenticationClientStateProvider.notifier);
     final userInfo = ref.watch(userInfoProvider);
 
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: userInfo.when(
-        data: (user) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Perfil",
-                  style: Theme.of(context).textTheme.headlineLarge,
+    return userInfo.when(
+      data: (user) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Header(title: 'Datos del usuario'),
+            Expanded(
+              flex: 10,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Text(
+                          user.displayName ?? "",
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        Text(
+                          user.email,
+                          style: Theme.of(context).textTheme.caption,
+                        ),
+                      ],
+                    ),
+                    const Divider(height: 50),
+                    CustomButton(
+                      title: 'CERRAR SESIÓN',
+                      onTap: () async {
+                        String? response = await notifier.logout();
+                        if (response != null) {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            response,
+                            (_) => false,
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
               ),
-              Column(
-                children: [
-                  Text(
-                    user.displayName ?? "",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Text(
-                    user.email,
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                ],
-              ),
-              CustomButton(
-                title: 'CERRAR SESIÓN',
-                onTap: () async {
-                  String? response = await notifier.logout();
-                  if (response != null) {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      response,
-                      (_) => false,
-                    );
-                  }
-                },
-              ),
-            ],
-          );
-        },
-        error: (err, s) => Text(err.toString()),
-        loading: () => const Center(
-          child: CircularProgressIndicator(),
-        ),
+            ),
+          ],
+        );
+      },
+      error: (err, s) => Text(err.toString()),
+      loading: () => const Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }
@@ -162,38 +166,25 @@ class LearningTree extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              "Árbol de aprendizaje",
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-          ),
-          Expanded(
-            flex: 10,
-            child: ListView.builder(
-              itemCount: badges.length,
-              itemBuilder: (context, index) {
-                final item = badges[index];
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        const Header(title: "Árbol de aprendizaje"),
+        Expanded(
+          flex: 10,
+          child: ListView.builder(
+            itemCount: badges.length,
+            itemBuilder: (context, index) {
+              final item = badges[index];
 
-                return BadgeContainer(
-                  content: item,
-                );
-              },
-            ),
+              return BadgeContainer(
+                content: item,
+              );
+            },
           ),
-          const Text(
-            "Más lecciones disponibles próximanente...",
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

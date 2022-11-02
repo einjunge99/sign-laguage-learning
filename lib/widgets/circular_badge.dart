@@ -32,7 +32,7 @@ class CircularBadge extends ConsumerWidget {
       },
       child: Column(
         children: [
-          Container(
+          SizedBox(
             width: size,
             height: size,
             child: Stack(
@@ -73,7 +73,8 @@ class CircularBadge extends ConsumerWidget {
               ],
             ),
           ),
-          Text(title)
+          const SizedBox(height: 10),
+          Text(title, style: Theme.of(context).textTheme.caption),
         ],
       ),
     );
