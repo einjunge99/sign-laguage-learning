@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sign_language_learning/controllers/quiz/index.dart';
+import 'package:sign_language_learning/ui/decoration.dart';
 
 const kDefaultPadding = 20.0;
 const kPrimaryGradient = LinearGradient(
@@ -26,11 +27,19 @@ class ProgressBar extends ConsumerWidget {
       width: double.infinity,
       height: 20,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF3F4768), width: 3),
         borderRadius: BorderRadius.circular(50),
       ),
       child: Stack(
         children: [
+          LayoutBuilder(
+            builder: (context, constraints) => Container(
+              width: constraints.maxWidth,
+              decoration: BoxDecoration(
+                color: secondary,
+                borderRadius: BorderRadius.circular(50),
+              ),
+            ),
+          ),
           LayoutBuilder(
             builder: (context, constraints) => Container(
               width: constraints.maxWidth * state.questionCounter / totalPages,

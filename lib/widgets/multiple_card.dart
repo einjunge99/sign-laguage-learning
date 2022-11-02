@@ -29,7 +29,7 @@ class MultipleCard extends HookConsumerWidget {
               ),
               Text(
                 'Selecciona la opción que represente al video',
-                style: Theme.of(context).textTheme.caption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),
@@ -39,7 +39,7 @@ class MultipleCard extends HookConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  VideoCard(videoUrl: 'Zh577vcSras'),
+                  const VideoCard(videoUrl: 'Zh577vcSras'),
                   Divider(
                     color: Colors.grey[200],
                     height: 32.0,

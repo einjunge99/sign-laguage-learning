@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sign_language_learning/ui/decoration.dart';
 import 'package:sign_language_learning/widgets/common/circular_icon.dart';
 
+//TODO: Replace with CustomButton
 class AnswerCard extends StatelessWidget {
   final String answer;
   final bool isSelected;
