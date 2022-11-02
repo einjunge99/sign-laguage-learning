@@ -76,7 +76,7 @@ class _HomePageState extends ConsumerState<HomePage> {
           data: (badges) => getBody(badges),
           error: (error, _) => Center(child: Text(error.toString())),
           loading: () => const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(color: primary),
           ),
         ),
         bottomNavigationBar: _buildBottomBar(),
@@ -150,7 +150,7 @@ class _ProfileState extends ConsumerState<Profile> {
       },
       error: (err, s) => Text(err.toString()),
       loading: () => const Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(color: primary),
       ),
     );
   }

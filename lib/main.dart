@@ -8,9 +8,8 @@ import 'package:sign_language_learning/pages/level_page.dart';
 import 'package:sign_language_learning/pages/login_page.dart';
 import 'package:sign_language_learning/pages/quiz_page.dart';
 import 'package:sign_language_learning/pages/register_page.dart';
+import 'package:sign_language_learning/pages/splash_page.dart';
 import 'package:sign_language_learning/pages/welcome_page.dart';
-
-//TODO: Add redirection if user a session is active
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const WelcomePage(),
+      home: const SplashPage(),
       routes: {
         LoginPage.routeName: ((context) => const LoginPage()),
         RegisterPage.routeName: ((context) => const RegisterPage()),

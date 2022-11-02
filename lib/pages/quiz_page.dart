@@ -7,6 +7,7 @@ import 'package:sign_language_learning/controllers/quiz/state.dart';
 import 'package:sign_language_learning/models/question.dart';
 import 'package:sign_language_learning/pages/completition_page.dart';
 import 'package:sign_language_learning/repositories/quiz/index.dart';
+import 'package:sign_language_learning/ui/decoration.dart';
 import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/quiz_questions.dart';
 
@@ -36,7 +37,7 @@ class QuizPage extends HookConsumerWidget {
               child: Text("There was an error..."),
             ),
             loading: () => const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator(color: primary),
             ),
           ),
           bottomSheet: quizQuestions.maybeWhen(

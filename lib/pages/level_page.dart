@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sign_language_learning/pages/completition_page.dart';
 import 'package:sign_language_learning/pages/home_page.dart';
 import 'package:sign_language_learning/providers.dart';
+import 'package:sign_language_learning/ui/decoration.dart';
 import 'package:sign_language_learning/widgets/common/dialogs.dart';
 import 'package:sign_language_learning/widgets/exercise_card.dart';
 import 'package:sign_language_learning/widgets/progress_bar.dart';
@@ -134,8 +135,8 @@ class _LevelPageState extends ConsumerState<LevelPage> {
       _gotoPage(newIndex, items.length);
     });
     if (items.isEmpty) {
-      return Center(
-        child: CircularProgressIndicator(),
+      return const Center(
+        child: CircularProgressIndicator(color: primary),
       );
     }
 

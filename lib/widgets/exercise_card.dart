@@ -7,6 +7,7 @@ import 'package:sign_language_learning/controllers/index.dart';
 import 'package:sign_language_learning/controllers/quiz/index.dart';
 import 'package:sign_language_learning/controllers/quiz/state.dart';
 import 'package:sign_language_learning/models/question.dart';
+import 'package:sign_language_learning/ui/decoration.dart';
 import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/video_card.dart';
 
@@ -166,8 +167,8 @@ class ExerciseCard extends HookConsumerWidget {
                           context: context,
                           barrierDismissible: false,
                           builder: (context) {
-                            return Center(
-                              child: CircularProgressIndicator(),
+                            return const Center(
+                              child: CircularProgressIndicator(color: primary),
                             );
                           },
                         );

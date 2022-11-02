@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:riverpod_messages/riverpod_messages.dart';
 import 'package:sign_language_learning/providers.dart';
 import 'package:sign_language_learning/store/reducers/snackbar.dart';
+import 'package:sign_language_learning/ui/decoration.dart';
 import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/forms/login_form.dart';
 
@@ -25,7 +26,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ref.watch(
                   exampleStateNotifierProvider.select((value) => value.loading))
-              ? const CircularProgressIndicator()
+              ? const CircularProgressIndicator(color: primary)
               : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
