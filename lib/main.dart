@@ -10,8 +10,7 @@ import 'package:sign_language_learning/pages/quiz_page.dart';
 import 'package:sign_language_learning/pages/register_page.dart';
 import 'package:sign_language_learning/pages/welcome_page.dart';
 
-//TODO: Create app state with riverpod and use riverpod messages to show API responses
-//Consider wrapping entire widget in MessageSnackbarListener
+//TODO: Add redirection if user a session is active
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,8 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home: const SplashPage(),
-      home: const LoginPage(),
+      home: const WelcomePage(),
       routes: {
         LoginPage.routeName: ((context) => const LoginPage()),
         RegisterPage.routeName: ((context) => const RegisterPage()),
