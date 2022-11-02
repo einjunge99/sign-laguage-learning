@@ -33,7 +33,7 @@ class CompletitionPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Tus resultados:",
+              "Tus resultados",
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headline3,
             ),
@@ -42,46 +42,52 @@ class CompletitionPage extends ConsumerWidget {
               children: [
                 Text(
                   'Aciertos',
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.headline4,
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.track_changes_rounded,
                       color: Colors.blue,
+                      size: 50,
                     ),
                     Text(
                       '${quizState.overview}%',
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.headline6,
+                      style: Theme.of(context).textTheme.headline4,
                     )
                   ],
                 ),
               ],
             ),
+            const SizedBox(height: 10),
             Text(
               getCompletitionText(quizState.overview),
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption,
+              style: Theme.of(context).textTheme.bodySmall,
             ),
           ],
         ),
       ),
-      bottomSheet: CustomButton(
-        onTap: () {
-          if (quizState.overview >= 75) {
-            final _selectedLecture = ref.read(lectureController.notifier).state;
-            ref.watch(quizProvider).saveQuiz(lectureId: _selectedLecture);
-          }
-          Navigator.pushNamedAndRemoveUntil(
-            context,
-            HomePage.routeName,
-            (_) => false,
-          );
-        },
-        title: 'CONTINUAR',
+      bottomSheet: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: CustomButton(
+          onTap: () {
+            if (quizState.overview >= 75) {
+              final _selectedLecture =
+                  ref.read(lectureController.notifier).state;
+              ref.watch(quizProvider).saveQuiz(lectureId: _selectedLecture);
+            }
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomePage.routeName,
+              (_) => false,
+            );
+          },
+          title: 'REGRESAR A INICIO',
+        ),
       ),
     );
   }
