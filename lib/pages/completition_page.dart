@@ -79,6 +79,7 @@ class CompletitionPage extends ConsumerWidget {
               final _selectedLecture =
                   ref.read(lectureController.notifier).state;
               ref.watch(quizProvider).saveQuiz(lectureId: _selectedLecture);
+              ref.refresh(treeBadgesProvider);
             }
             Navigator.pushNamedAndRemoveUntil(
               context,

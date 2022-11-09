@@ -39,7 +39,7 @@ class MultipleCard extends HookConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const VideoCard(videoUrl: 'Zh577vcSras'),
+                  VideoCard(videoUrl: question.videoId),
                   Divider(
                     color: Colors.grey[200],
                     height: 32.0,

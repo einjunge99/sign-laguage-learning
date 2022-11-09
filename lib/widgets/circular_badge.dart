@@ -11,6 +11,7 @@ class CircularBadge extends ConsumerWidget {
     required this.badgeColor,
     required this.imageUrl,
     required this.isCompleted,
+    required this.isUnlocked,
   }) : super(key: key);
 
   final String uid;
@@ -18,6 +19,7 @@ class CircularBadge extends ConsumerWidget {
   final Color badgeColor;
   final String imageUrl;
   final bool isCompleted;
+  final bool isUnlocked;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -57,16 +59,23 @@ class CircularBadge extends ConsumerWidget {
                     ),
                     child: Center(
                       child: Container(
-                        margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: badgeColor,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.network(
-                          imageUrl,
-                        ),
-                      ),
+                          margin: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: isCompleted || isUnlocked
+                                ? const Color(0xFF1DB1F4)
+                                : const Color(0xFFE4E5E5),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            isCompleted
+                                ? Icons.check
+                                : isUnlocked
+                                    ? Icons.play_arrow_outlined
+                                    : Icons.no_encryption_outlined,
+                            size: 60,
+                            color: Colors.white,
+                          )),
                     ),
                   ),
                 )

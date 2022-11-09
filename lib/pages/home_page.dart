@@ -162,7 +162,7 @@ class LearningTree extends ConsumerWidget {
     required this.badges,
   }) : super(key: key);
 
-  final List badges;
+  final List<Badge> badges;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -177,9 +177,16 @@ class LearningTree extends ConsumerWidget {
             itemCount: badges.length,
             itemBuilder: (context, index) {
               final item = badges[index];
+              bool isUnlocked = false;
+              if ((badges.length == 1 || index == 0) && !item.isCompleted) {
+                isUnlocked = true;
+              } else if (index != 0 && badges[index - 1].isCompleted) {
+                isUnlocked = true;
+              }
 
               return BadgeContainer(
                 content: item,
+                isUnlocked: isUnlocked,
               );
             },
           ),

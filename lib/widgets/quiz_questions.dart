@@ -66,7 +66,8 @@ class QuizQuestions extends HookConsumerWidget {
 
               return ExerciseCard(
                 title: question.question,
-                label: question.key,
+                label: question.key!,
+                videoId: question.videoId,
                 pageController: pageController,
                 questions: questions,
               );

@@ -31,7 +31,6 @@ class _VideoCardState extends State<VideoCard> {
   @override
   Widget build(BuildContext context) {
     return YoutubePlayer(
-      aspectRatio: 9 / 16,
       controller: _controller,
       showVideoProgressIndicator: true,
       onReady: () {

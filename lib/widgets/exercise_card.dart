@@ -12,17 +12,19 @@ import 'package:sign_language_learning/widgets/common/button.dart';
 import 'package:sign_language_learning/widgets/video_card.dart';
 
 class ExerciseCard extends HookConsumerWidget {
-  ExerciseCard({
-    Key? key,
-    required this.title,
-    required this.label,
-    required this.pageController,
-    required this.questions,
-  }) : super(key: key);
+  ExerciseCard(
+      {Key? key,
+      required this.title,
+      required this.label,
+      required this.pageController,
+      required this.questions,
+      required this.videoId})
+      : super(key: key);
 
   final PageController pageController;
   final String title;
   final String label;
+  final String videoId;
   final List<Question> questions;
   final _accountApi = GetIt.instance<ResourcesApi>();
 
@@ -32,7 +34,7 @@ class ExerciseCard extends HookConsumerWidget {
       context: context,
       builder: (context) {
         return FractionallySizedBox(
-          heightFactor: 0.9,
+          heightFactor: 0.3,
           child: Container(
             color: const Color(0xFF737373),
             child: Container(
@@ -45,7 +47,7 @@ class ExerciseCard extends HookConsumerWidget {
                 ),
               ),
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     //TODO: Add pulsating effect
                     Padding(
@@ -55,7 +57,7 @@ class ExerciseCard extends HookConsumerWidget {
                         height: 6,
                       ),
                     ),
-                    const VideoCard(videoUrl: 'Zh577vcSras'),
+                    VideoCard(videoUrl: videoId),
                   ]),
             ),
           ),
@@ -89,9 +91,18 @@ class ExerciseCard extends HookConsumerWidget {
           Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text(title, style: Theme.of(context).textTheme.headline2),
+                  SizedBox(
+                    width: 300,
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
+                  ),
                   Material(
                     type: MaterialType.transparency,
                     child: Ink(

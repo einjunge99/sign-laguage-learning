@@ -33,8 +33,8 @@ class QuizPage extends HookConsumerWidget {
           backgroundColor: Colors.transparent,
           body: quizQuestions.when(
             data: (questions) => _buildBody(ref, pageController, questions),
-            error: (error, _) => const Center(
-              child: Text("There was an error..."),
+            error: (error, _) => Center(
+              child: Text("There was an error...${error.toString()}"),
             ),
             loading: () => const Center(
               child: CircularProgressIndicator(color: primary),
