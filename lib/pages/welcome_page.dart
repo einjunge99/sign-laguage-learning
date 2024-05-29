@@ -28,7 +28,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 "https://www.sense.org.uk/wp-content/themes/sense-uk/assets/img/sign/o.png",
               ),
               Text(
-                "<MI APP>",
+                "Enseñate",
                 style: Theme.of(context).textTheme.headlineLarge,
                 textAlign: TextAlign.center,
               ),
