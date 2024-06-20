@@ -32,7 +32,9 @@ class QuizQuestions extends HookConsumerWidget {
                 Expanded(
                   child: IconButton(
                     padding: const EdgeInsets.all(0.0),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.maybePop(context);
+                    },
                     icon: const Icon(
                       Icons.close,
                       size: 40,
