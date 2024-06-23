@@ -13,7 +13,7 @@ import 'package:sign_language_learning/widgets/quiz_questions.dart';
 
 final quizQuestionsProvider = FutureProvider.autoDispose<List<Question>>((ref) {
   final _selectedLecture = ref.read(lectureController.notifier).state;
-  return ref.watch(quizProvider).getExercises(lectureId: _selectedLecture);
+  return ref.watch(quizProvider).getExercices(lectureId: _selectedLecture);
 });
 
 class QuizPage extends HookConsumerWidget {

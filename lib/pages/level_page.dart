@@ -32,7 +32,7 @@ class LevelPage extends ConsumerStatefulWidget {
 
 //TODO: reset level state on init
 class _LevelPageState extends ConsumerState<LevelPage> {
-  List<Exercise> exercises = [
+  List<Exercise> exercices = [
     Exercise(
       "001",
       "Lunes",
@@ -116,7 +116,7 @@ class _LevelPageState extends ConsumerState<LevelPage> {
           ModalRoute.of(context)!.settings.arguments as LevelPageArguments;
 
       final result =
-          exercises.where((element) => element.lessonUid == args.uid).toList();
+          exercices.where((element) => element.lessonUid == args.uid).toList();
 
       setState(() {
         items = result;

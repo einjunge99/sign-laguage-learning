@@ -12,7 +12,7 @@ class Tree extends BaseTree {
   //TODO: Use HttpResponse.fail metadata to show error messages
   @override
   Future<List<Badge>> getBadges() async {
-    final response = await _resources.getLectures();
+    final response = await _resources.getUserLectures();
 
     final lectures = List<Map<String, dynamic>>.from(response.data);
 

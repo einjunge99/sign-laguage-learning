@@ -10,8 +10,8 @@ class Quiz extends BaseQuiz {
   final _resources = GetIt.instance<ResourcesApi>();
 
   @override
-  Future<List<Question>> getExercises({required String lectureId}) async {
-    final response = await _resources.getExercises(lectureId);
+  Future<List<Question>> getExercices({required String lectureId}) async {
+    final response = await _resources.getExercices(lectureId);
 
     final exercices = List<Map<String, dynamic>>.from(response.data);
 

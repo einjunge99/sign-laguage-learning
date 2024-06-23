@@ -28,9 +28,9 @@ class Badge {
 
   factory Badge.fromMap(Map<String, dynamic> map) {
     return Badge(
-      uid: map['uid'] as String,
+      uid: map['id'] as String,
       title: map['title'] as String,
-      badgeColor: getColorFromVariant(map['variant'] as String),
+      badgeColor: getColorFromVariant(map['variant'] ?? 'UNKNOWN'),
       imageUrl: map['imageUrl'] as String,
       isCompleted: map['isCompleted'] as bool,
     );

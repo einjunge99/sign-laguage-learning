@@ -5,12 +5,13 @@ import 'package:sign_language_learning/api/authentication_api.dart';
 import 'package:sign_language_learning/api/resources_api.dart';
 import 'package:sign_language_learning/data/authentication_client.dart';
 import 'package:sign_language_learning/helpers/http.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class DependencyInjection {
   static void initialize() {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final Dio dio = Dio(BaseOptions(
-      baseUrl: 'https://7136-190-104-112-243.ngrok-free.app',
+      baseUrl: dotenv.env['API_URL'] ?? '',
     ));
     Http http = Http(dio: dio, logsEnabled: true);
 

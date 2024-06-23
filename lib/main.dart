@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sign_language_learning/helpers/dependency_injection.dart';
 import 'package:sign_language_learning/pages/completition_page.dart';
@@ -16,6 +17,8 @@ void main() async {
   await Firebase.initializeApp();
   DependencyInjection.initialize();
 
+  await dotenv.load();
+
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Enseñas',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

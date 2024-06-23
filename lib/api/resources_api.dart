@@ -18,7 +18,7 @@ class ResourcesApi {
       Uint8List bytes, String label, String lectureId) async {
     //TODO: Add corresponding response type
     return _http.request(
-      '/api/predict/$lectureId',
+      '/lectures/$lectureId/predict',
       method: 'POST',
       formData: {
         "file": MultipartFile.fromBytes(bytes, filename: "avatar.jpg"),
@@ -27,31 +27,29 @@ class ResourcesApi {
     );
   }
 
-  Future<HttpResponse> getLectures() async {
+  Future<HttpResponse> getUserLectures() async {
     final uid = _auth.currentUser?.uid;
     return _http.request(
-      '/api/lectures/$uid',
+      '/users/$uid/lectures',
     );
   }
 
-  Future<HttpResponse> getExercises(String lectureId) async {
+  Future<HttpResponse> getExercices(String lectureId) async {
     return _http.request(
-      '/api/exercises/$lectureId',
+      '/lectures/$lectureId/exercices',
     );
   }
 
   Future<HttpResponse> updateLectureStatus(String lectureId) async {
     final uid = _auth.currentUser?.uid;
-    return _http.request(
-      '/api/user/$uid/$lectureId',
-      method: 'PATCH',
-    );
+    return _http.request('/users/$uid/completed-lecture',
+        method: 'PATCH', data: {'lecture_id': lectureId});
   }
 
   Future<HttpResponse> getUserInfo() async {
     final uid = _auth.currentUser?.uid;
     return _http.request(
-      '/api/user/$uid/',
+      '/users/$uid/',
     );
   }
 }
