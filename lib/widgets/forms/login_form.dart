@@ -59,10 +59,15 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox(height: 10),
           CustomButton(title: 'INICIAR SESIÓN', onTap: _submit),
-          const SizedBox(height: 10),
-          Text(
-            "Olvidé mi contraseña",
-            style: Theme.of(context).textTheme.bodyText1,
+          const SizedBox(height: 20),
+          GestureDetector(
+            onTap: () {
+              widget.notifier.resetPassword(_email);
+            },
+            child: Text(
+              "Olvidé mi contraseña",
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ),
         ],
       ),

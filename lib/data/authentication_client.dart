@@ -116,6 +116,34 @@ class AuthenticationClient {
     }, SetOptions(merge: true));
   }
 
+  Future<AuthenticationClientState?> resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (error) {
+      switch (error.code) {
+        case 'user-not-found':
+          break;
+        case 'invalid-email':
+          return const AuthenticationClientState(
+            error: 'Ingresa un correo válido.',
+          );
+        default:
+          return const AuthenticationClientState(
+            error: 'Ocurrió un error inesperado.',
+          );
+      }
+    } catch (e) {
+      return const AuthenticationClientState(
+        error: 'Ocurrió un error inesperado.',
+      );
+    }
+
+    return const AuthenticationClientState(
+        info:
+            'En caso que el correo esté asociado a una cuenta, recibirás un correo dentro de poco');
+  }
+
+  // TODO: handle signOut when user already has deleted the account
   Future<AuthenticationClientState?> signOut() async {
     final docRef = _db.collection("users").doc(_auth.currentUser!.uid);
 

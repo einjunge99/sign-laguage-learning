@@ -106,6 +106,21 @@ class AuthenticationClientNotifier
 
     return response?.path;
   }
+
+  Future<String?> resetPassword(String email) async {
+    state = state.reset();
+
+    AuthenticationClientState? response =
+        await _authenticationClient.resetPassword(email);
+
+    state = state.copyWith(
+      loading: false,
+      error: response?.error,
+      info: response?.info,
+    );
+
+    return response?.info;
+  }
 }
 
 final authenticationClientStateProvider = StateNotifierProvider<
