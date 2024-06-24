@@ -48,12 +48,12 @@ class MultipleCard extends HookConsumerWidget {
                     endIndent: 20.0,
                   ),
                   Column(
-                    children: question.answers!
+                    children: question.options!
                         .map(
                           (e) => AnswerCard(
                             answer: e,
                             isSelected: e == state.selectedAnswer,
-                            isCorrect: e == question.correctAnswer,
+                            isCorrect: e == question.answer,
                             isDisplayingAnswer: state.answered,
                             onTap: () => ref
                                 .read(quizControllerProvider.notifier)

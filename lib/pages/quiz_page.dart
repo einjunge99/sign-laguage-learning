@@ -104,16 +104,16 @@ class QuizPage extends HookConsumerWidget {
     return await showDialog(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Are you sure?'),
-            content: const Text('Do you want to go back?'),
+            title: const Text('Estás a punto de salir'),
+            content: const Text('Perderás tu progreso de la lección'),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('No'),
+                child: const Text('Seguir'),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Yes'),
+                child: const Text('Terminar'),
               ),
             ],
           ),

@@ -13,11 +13,11 @@ import 'package:sign_language_learning/pages/splash_page.dart';
 import 'package:sign_language_learning/pages/welcome_page.dart';
 
 void main() async {
+  await dotenv.load();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   DependencyInjection.initialize();
-
-  await dotenv.load();
 
   runApp(const ProviderScope(child: MyApp()));
 }

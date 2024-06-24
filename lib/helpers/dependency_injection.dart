@@ -11,7 +11,7 @@ abstract class DependencyInjection {
   static void initialize() {
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final Dio dio = Dio(BaseOptions(
-      baseUrl: dotenv.env['API_URL'] ?? '',
+      baseUrl: (dotenv.env['API_URL'] ?? '') + '/api/v1',
     ));
     Http http = Http(dio: dio, logsEnabled: true);
 

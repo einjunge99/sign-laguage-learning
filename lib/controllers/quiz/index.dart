@@ -11,7 +11,7 @@ class QuizController extends StateNotifier<QuizState> {
 
   void submitAnswer(Question currentQuestion, String answer) {
     if (state.answered) return;
-    var isCorrect = answer == currentQuestion.correctAnswer;
+    var isCorrect = answer == currentQuestion.answer;
     state = state.copyWith(
       selectedAnswer: answer,
       status: isCorrect ? QuizStatus.correct : QuizStatus.incorrect,
