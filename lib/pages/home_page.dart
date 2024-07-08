@@ -178,7 +178,7 @@ class LearningTree extends ConsumerWidget {
             itemBuilder: (context, index) {
               final item = badges[index];
               bool isUnlocked = false;
-              if ((badges.length == 1 || index == 0) && !item.isCompleted) {
+              if ((badges.length == 1 || index == 0) && item.isCompleted) {
                 isUnlocked = true;
               } else if (index != 0 && badges[index - 1].isCompleted) {
                 isUnlocked = true;
@@ -187,6 +187,9 @@ class LearningTree extends ConsumerWidget {
               return BadgeContainer(
                 content: item,
                 isUnlocked: isUnlocked,
+                alignment: index % 2 == 0
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
               );
             },
           ),

@@ -24,14 +24,8 @@ class _WelcomePageState extends State<WelcomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Image.network(
-                "https://www.sense.org.uk/wp-content/themes/sense-uk/assets/img/sign/o.png",
-              ),
-              Text(
-                "Enseñas",
-                style: Theme.of(context).textTheme.headlineLarge,
-                textAlign: TextAlign.center,
-              ),
+              const Image(image: AssetImage('assets/logo.png')),
+              const Image(image: AssetImage('assets/title.png')),
               Text(
                 "Abre la puerta al mundo de la lengua de señas",
                 style: Theme.of(context).textTheme.headlineSmall,

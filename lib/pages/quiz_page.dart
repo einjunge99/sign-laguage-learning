@@ -64,16 +64,21 @@ class QuizPage extends HookConsumerWidget {
                       onTap: !quizState.answered
                           ? null
                           : () {
-                              ref
+                              final questionIndex = ref
                                   .read(quizControllerProvider.notifier)
                                   .nextQuestion(
                                     questions,
                                     pageController.page?.toInt() ?? 0,
+                                    false,
                                   );
-                              pageController.nextPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeIn,
-                              );
+                              if (questionIndex == null) {
+                                pageController.nextPage(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeIn,
+                                );
+                              } else {
+                                pageController.jumpToPage(questionIndex);
+                              }
                             },
                     ),
                   );
@@ -87,6 +92,7 @@ class QuizPage extends HookConsumerWidget {
                       ref.read(quizControllerProvider.notifier).nextQuestion(
                             questions,
                             pageController.page?.toInt() ?? 0,
+                            true,
                           );
                     },
                   ),

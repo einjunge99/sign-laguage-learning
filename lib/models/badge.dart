@@ -6,14 +6,14 @@ class Badge {
   final String uid;
   final String title;
   final Color badgeColor;
-  final String imageUrl;
+  final String iconUrl;
   final bool isCompleted;
 
   Badge({
     required this.uid,
     required this.title,
     required this.badgeColor,
-    required this.imageUrl,
+    required this.iconUrl,
     required this.isCompleted,
   });
 
@@ -31,7 +31,7 @@ class Badge {
       uid: map['id'] as String,
       title: map['title'] as String,
       badgeColor: getColorFromVariant(map['variant'] ?? 'UNKNOWN'),
-      imageUrl: map['imageUrl'] as String,
+      iconUrl: map['iconUrl'] as String,
       isCompleted: map['isCompleted'] as bool,
     );
   }

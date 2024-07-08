@@ -42,7 +42,7 @@ class ResourcesApi {
 
   Future<HttpResponse> updateLectureStatus(String lectureId) async {
     final uid = _auth.currentUser?.uid;
-    return _http.request('/users/$uid/completed-lecture',
+    return _http.request('/users/$uid/completed-lectures',
         method: 'PATCH', data: {'lecture_id': lectureId});
   }
 

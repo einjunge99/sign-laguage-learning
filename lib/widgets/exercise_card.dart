@@ -147,14 +147,21 @@ class ExerciseCard extends HookConsumerWidget {
                         QuizStatus.correct
                     ? null
                     : () {
-                        ref.read(quizControllerProvider.notifier).nextQuestion(
+                        final questionIndex = ref
+                            .read(quizControllerProvider.notifier)
+                            .nextQuestion(
                               questions,
                               pageController.page?.toInt() ?? 0,
+                              true,
                             );
-                        pageController.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeIn,
-                        );
+                        if (questionIndex == null) {
+                          pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                          );
+                        } else {
+                          pageController.jumpToPage(questionIndex);
+                        }
                       },
                 child: const Text(
                   "NO PUEDO USAR MI CÁMARA AHORA",

@@ -11,7 +11,7 @@ class CircularBadge extends ConsumerWidget {
     required this.uid,
     required this.title,
     required this.badgeColor,
-    required this.imageUrl,
+    required this.iconUrl,
     required this.isCompleted,
     required this.isUnlocked,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class CircularBadge extends ConsumerWidget {
   final String uid;
   final String title;
   final Color badgeColor;
-  final String imageUrl;
+  final String iconUrl;
   final bool isCompleted;
   final bool isUnlocked;
 
@@ -28,8 +28,6 @@ class CircularBadge extends ConsumerWidget {
     const size = 125.0;
     return GestureDetector(
       onTap: () {
-        print('---ON TAP----');
-        print(isUnlocked);
         if (!isUnlocked) {
           return;
         }
@@ -66,23 +64,39 @@ class CircularBadge extends ConsumerWidget {
                     ),
                     child: Center(
                       child: Container(
-                          margin: const EdgeInsets.all(10),
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: isCompleted || isUnlocked
-                                ? const Color(0xFF1DB1F4)
-                                : const Color(0xFFE4E5E5),
-                            shape: BoxShape.circle,
+                        margin: const EdgeInsets.all(10),
+                        foregroundDecoration: !isUnlocked
+                            ? const BoxDecoration(
+                                color: Colors.grey,
+                                backgroundBlendMode: BlendMode.saturation,
+                              )
+                            : null,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFE4E5E5),
+                          shape: BoxShape.circle,
+                        ),
+                        child: ClipOval(
+                          child: Image.network(
+                            iconUrl,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child,
+                                ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return Center(
+                                child: CircularProgressIndicator(
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
+                                ),
+                              );
+                            },
                           ),
-                          child: Icon(
-                            isCompleted
-                                ? Icons.check
-                                : isUnlocked
-                                    ? Icons.play_arrow_outlined
-                                    : Icons.no_encryption_outlined,
-                            size: 60,
-                            color: Colors.white,
-                          )),
+                        ),
+                      ),
                     ),
                   ),
                 )
